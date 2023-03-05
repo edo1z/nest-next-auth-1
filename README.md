@@ -55,6 +55,14 @@ sqlite> .schema User
 sqlite> .quit
 ```
 
+### nestjs-prisma を入れる
+
+```
+nest add nestjs-prisma
+```
+
+- [notiz-dev/nestjs-prisma](https://github.com/notiz-dev/nestjs-prisma)
+
 ### Setting GraphQL
 
 ## Next.js
