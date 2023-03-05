@@ -63,22 +63,6 @@ sqlite> .quit
 nest add nestjs-prisma
 ```
 
-- backend/src/app.module.ts` に PrismaModule を追加
-
-```
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PrismaModule } from 'nestjs-prisma';
-
-@Module({
-  imports: [PrismaModule.forRoot()],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
-```
-
 ### Setting GraphQL(code first)
 
 - graphql 関連をインストール
@@ -93,14 +77,12 @@ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from 'nestjs-prisma';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 
 @Module({
   imports: [
-    PrismaModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
@@ -177,7 +159,59 @@ export class CreateUserInput {
 
 ### UserService を修正
 
-- users.service に prisma を注入し SQLite の操作を可能にします。
+UsersModule の imports に PrismaModule を追加します。
+
+- backend/src/users/users.module.ts
+
+```
+import { Module } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { UsersResolver } from './users.resolver';
+import { PrismaModule } from 'nestjs-prisma';
+
+@Module({
+  imports: [PrismaModule.forRoot()],
+  providers: [UsersResolver, UsersService],
+})
+export class UsersModule {}
+```
+
+UserService に prisma を注入し SQLite の操作を可能にします。
+
+- backend/src/users/users.service.ts
+
+```
+import { Injectable } from '@nestjs/common';
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
+import { PrismaService } from 'nestjs-prisma';
+
+@Injectable()
+export class UsersService {
+  constructor(private prisma: PrismaService) {}
+
+  create(createUserInput: CreateUserInput) {
+    return 'This action adds a new user';
+  }
+
+  findAll() {
+    return `This action returns all users`;
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} user`;
+  }
+
+  update(id: number, updateUserInput: UpdateUserInput) {
+    return `This action updates a #${id} user`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} user`;
+  }
+}
+
+```
 
 ## Next.js
 
