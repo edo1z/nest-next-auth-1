@@ -113,10 +113,6 @@ export class AppModule {}
 nest g resource users
 ```
 
-### GraphQL プレイグラウンド
-
-- http://localhost:3000/graphql
-
 ### User のモデルを修正
 
 `nest g resource` で生成した `users` の `DTO` と `Entity` を `schema.prisma`に合わせて修正します。
@@ -190,28 +186,34 @@ import { PrismaService } from 'nestjs-prisma';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  async create(createUserInput: CreateUserInput) {
+    return await this.prisma.user.create({ data: createUserInput });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    return await this.prisma.user.findUnique({ where: { id } });
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserInput: UpdateUserInput) {
+    return await this.prisma.user.update({
+      where: { id },
+      data: updateUserInput,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    return await this.prisma.user.delete({ where: { id } });
   }
 }
-
 ```
+
+### GraphQL プレイグラウンド
+
+- http://localhost:3000/graphql
 
 ## Next.js
 
