@@ -6,8 +6,6 @@ input CreateUserInput {
   active: Boolean!
   email: String!
   name: String!
-  password: String!
-  profile: String
   url: String
 }
 
@@ -18,31 +16,31 @@ scalar DateTime
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(id: String!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  user(id: Int!): User!
+  user(id: String!): User!
   users: [User!]!
 }
 
 input UpdateUserInput {
   active: Boolean
   email: String
-  id: Int!
+  id: String!
   name: String
-  password: String
-  profile: String
   url: String
 }
 
 type User {
   active: Boolean!
   createdAt: DateTime!
-  email: String!
-  id: Int!
-  name: String!
+  email: String
+  emailVerified: DateTime
+  id: String!
+  image: String
+  name: String
   password: String!
   profile: String
   updatedAt: DateTime!

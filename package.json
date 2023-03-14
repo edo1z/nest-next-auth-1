@@ -1,0 +1,16 @@
+{
+  "name": "nest-next-auth-1",
+  "version": "0.0.0",
+  "description": "NestJS + Next.js + NextAuth + Prisma + SQLite",
+  "private": true,
+  "license": "UNLICENSED",
+  "author": "web3ten0",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "database"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

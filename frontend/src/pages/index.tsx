@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
+import {signIn, signOut, useSession} from 'next-auth/react'
 
 export async function getStaticProps() {
   const { data } = await client.query({
@@ -20,10 +21,24 @@ export async function getStaticProps() {
 }
 
 export default function Index({ users }: any) {
+  const {data:session, status} = useSession();
+  const loading = status === 'loading';
   console.log(users);
+
   return (
     <div>
-      hello world!
+      <h3>HOGE</h3>
+      {loading && <p>Loading...</p>}
+      {!loading && !session && (
+        <>
+          <button onClick={e => signIn()}>SignIN</button><br/>
+        </>
+      )}
+       {!loading && session && (
+        <>
+          <button onClick={e => signOut()}>SignOUT</button>
+        </>
+      )}
     </div>
   );
 }
