@@ -23,7 +23,7 @@ export async function getStaticProps() {
 export default function Index({ users }: any) {
   const {data:session, status} = useSession();
   const loading = status === 'loading';
-  console.log(users);
+  console.log('users???', users);
 
   return (
     <div>
