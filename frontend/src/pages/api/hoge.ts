@@ -34,6 +34,7 @@ async function getUsers(token: string) {
   const { data } = await client.query({
     query,
     context: { headers },
+    fetchPolicy: "no-cache",
   });
   return data.users;
 }
