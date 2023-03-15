@@ -18,7 +18,8 @@ export class UsersResolver {
   @Query(() => [User], { name: 'users' })
   @UseGuards(AuthGuard)
   findAll(@Context() context) {
-    console.log('context??', context.req.headers.authorization);
+    const user = context.user;
+    console.log('USER', user);
     return this.usersService.findAll();
   }
 
